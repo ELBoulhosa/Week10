@@ -1,0 +1,87 @@
+ <!DOCTYPE html>
+<html>
+    <head>
+        <title>Form</title>
+        <link rel="stylesheet" type="text/css" href="../CSS/mystyle.css">
+    </head>
+
+    <body> 
+	    <div class="page1">
+			<img src="../images/wowburger1.jpg" alt="WowBurger" class="bg-img">
+            <div class="centered">
+			
+        <form id="order-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" minlength="9" maxlength="9" required><br>
+            <label for="burger-size">Burger Size:</label>
+            <select id="burger-size" name="burger-size" required>
+                <option value="" selected disabled>Select a Size</option>
+                <option value="6oz">6oz Large (€7)</option>
+                <option value="10oz">10oz Extra-Large (€9)</option>
+                <option value="16oz">16oz Supersize (€17.50)</option>
+            </select><br>
+            <label for="burger-quantity">Quantity:</label>
+            <input type="number" id="burger-quantity" name="burger-quantity" placeholder="Choose the quantity" min="1" required><br>
+            <label for="discount-code">Discount Code:</label>
+            <input type="text" id="discount-code" name="discount-code" placeholder="Enter the Discount Code" ><br>
+            <button type="submit">Place Order</button>
+        </form>
+<!-- Add JQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+//adding alert when super-size is chosen.
+    const SizeAlert=document.getElementById("burger-size");
+	SizeAlert.addEventListener("change", function(event) {
+	if(SizeAlert.value=="16oz"){
+		$("#burger-size").css("background-color", "red");
+		alert("You have chosen our delicious Super-Sized Burger. Have you counted your calories today?");
+	} else {
+		$("#burger-size").css("background-color", "white");
+	}
+	});
+
+    const form = document.getElementById("order-form");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault(); //previne form sending
+
+        const discountCode = document.getElementById("discount-code").value;
+        const burgerSize = document.getElementById("burger-size").value;
+        let discount = 0;
+
+        if (discountCode === "extracheese") { //verifying discount code
+        discount = 0.1
+        //defining 10% discount
+        alert ("Discount code accepted. You have 10% discount.");
+        } else if (discountCode !== "") {
+            alert ("Invalid discount code.");
+        }
+
+        let totalPrice = 0;
+
+        switch (burgerSize) { //calculating total price
+        case "6oz":
+            totalPrice = 7;
+            break;
+        case "10oz":
+            totalPrice = 9;
+            break;
+        case "16oz":
+            totalPrice = 17.5;
+            
+            break;
+            default:
+                break;
+        }
+
+        totalPrice *= parseInt(document.getElementById("burger-quantity").value);
+        //applying discount
+        totalPrice -= totalPrice * discount;
+
+        alert(`Total Price: €${totalPrice.toFixed(2)}`);
+    });
+</script>
+    </body>
+</html>
